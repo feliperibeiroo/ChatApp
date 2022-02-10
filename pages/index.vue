@@ -49,6 +49,14 @@ export default {
           color: 'green'
         })
       })
+      this.socket.on('disconnected', (clientId) => {
+        if (clientId==this.anotherClient) {
+          this.messages.push({
+            msg: 'O seu parceiro se desconectou :-(',
+            color: 'red'
+          })
+        }
+      })
       this.socket.on('joined', (anotherClient) => {
         this.anotherClient = anotherClient
         this.messages.push({
@@ -63,6 +71,9 @@ export default {
           msg: `Anônimo: ${msg}`
         })
       })
+    },
+
+    enviar() {
       if (this.text) {
         this.socket.emit('msg', this.anotherClient, this.text);
         this.messages.push(
