@@ -63,17 +63,6 @@ export default {
           msg: `Anônimo: ${msg}`
         })
       })
-      this.socket.on('disconnected', (anotherClient) => {
-        if (this.anotherClient==anotherClient) {
-          this.messages.push({
-            msg: 'O parceiro se desconectou :-( | Clique em PRÓXIMO para procurar por um novo parceiro.',
-            color: 'red'
-          })
-          this.socket.disconnect()
-        }
-      })
-    },
-    enviar() {
       if (this.text) {
         this.socket.emit('msg', this.anotherClient, this.text);
         this.messages.push(

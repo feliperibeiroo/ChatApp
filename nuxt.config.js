@@ -16,7 +16,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
 
@@ -41,6 +41,11 @@ export default {
     'bootstrap-vue/nuxt',
     ['@nuxtjs/dotenv', { systemvars: true }],
   ],
+
+  env: {
+    HOST_ORIGIN: process.env.HOST_ORIGIN,
+    PORT: process.env.PORT
+  },
 
   server: {
     port: process.env.PORT || 3000,
