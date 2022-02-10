@@ -5,7 +5,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'chat-frontend',
+    title: 'Chat Online',
     htmlAttrs: {
       lang: 'en'
     },
