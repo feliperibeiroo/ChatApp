@@ -42,7 +42,7 @@ export default {
     carregarSocket() {
       if (this.socket) this.socket.disconnect(true);
       this.messages = []
-      this.socket = io(process.env.HOST_SOCKET, { transports : ['websocket'] })
+      this.socket = io(process.env.HOST_SOCKET || 'http://127.0.0.1:8080', { transports : ['websocket'] })
       this.socket.on('connect', () => {
         this.messages.push({
           msg: 'Conectado ao servidor... Pronto para encontrar um parceiro...',
