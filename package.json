@@ -1,5 +1,5 @@
 {
-  "name": "front-chat",
+  "name": "chat-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.19.3",
+    "fs": "^0.0.1-security",
     "nuxt": "^2.15.8",
     "socket.io-client": "^4.4.1",
     "vue": "^2.6.14",
@@ -19,5 +21,8 @@
     "vue-template-compiler": "^2.6.14",
     "webpack": "^4.46.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "sass": "^1.49.7",
+    "sass-loader": "10.1.1"
+  }
 }

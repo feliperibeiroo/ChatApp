@@ -1,4 +1,4 @@
-# front-chat
+# chat-frontend
 
 ## Build Setup
 

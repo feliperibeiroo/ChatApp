@@ -1,10 +1,11 @@
+require('dotenv').config()
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'front-chat',
+    title: 'chat-frontend',
     htmlAttrs: {
       lang: 'en'
     },
@@ -38,14 +39,23 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    ['@nuxtjs/dotenv', { systemvars: true }],
   ],
+
+  server: {
+    port: 3000,
+    host: '0.0.0.0'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  },
-
-  server: {
-    port: 4000,
-    host: '0.0.0.0'
+    loaders: {
+      sass: {
+        implementation: require('sass'),
+      },
+      scss: {
+        implementation: require('sass'),
+      },
+    },
   }
 }
