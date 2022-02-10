@@ -43,7 +43,7 @@ export default {
   ],
 
   env: {
-    HOST_ORIGIN: process.env.HOST_ORIGIN,
+    HOST_SOCKET: process.env.HOST_SOCKET,
     PORT: process.env.PORT
   },
 
