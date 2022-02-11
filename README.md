@@ -13,5 +13,4 @@ A aplicação de chat cria um websocket com o servidor e aguarda outros usuário
 * Bootstrap-Vue
 * Socket.io
 * HTML
-* CSS
-* SASS
+* SASS/CSS
