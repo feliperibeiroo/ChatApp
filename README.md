@@ -1,4 +1,4 @@
-# ChatApp (FrontEnd)
+# ChatApp (Front-end)
 
 ## Descrição
 Projeto front-end de uma aplicação de chat anônimo. A aplicação está disponível em: <https://chat-app-feliperibeiro.herokuapp.com/>
