@@ -14,7 +14,7 @@
     </div>
     <div class="footer">
         <b-form-input v-model="text" type="text" autocomplete="off" @keydown.enter="enviar" placeholder="Digite sua mensagem aqui"></b-form-input>
-        <b-button :disabled="socket" @click="enviar" variant="primary">Enviar</b-button>
+        <b-button :disabled="!socket" @click="enviar" variant="primary">Enviar</b-button>
         <b-button @click="carregarSocket" variant="danger">Próximo</b-button>
       </div>
   </div>
