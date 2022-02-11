@@ -5,7 +5,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'chat-frontend',
+    title: 'Chat Online',
     htmlAttrs: {
       lang: 'en'
     },
@@ -16,7 +16,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
 
@@ -42,8 +42,13 @@ export default {
     ['@nuxtjs/dotenv', { systemvars: true }],
   ],
 
+  env: {
+    HOST_SOCKET: process.env.HOST_SOCKET,
+    PORT: process.env.PORT
+  },
+
   server: {
-    port: 3000,
+    port: process.env.PORT || 3000,
     host: '0.0.0.0'
   },
 

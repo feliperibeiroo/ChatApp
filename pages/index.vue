@@ -3,42 +3,83 @@
     <!-- As a link -->
     <b-navbar class="navbar navbar-dark bg-primary">
       <b-navbar-brand href="#">Chat Online</b-navbar-brand>
-      <span>Desenvolvidor por Felipe Ribeiro</span>
+      <span>Desenvolvido por Felipe Ribeiro</span>
     </b-navbar>
     <div class="content">
       <b-card class="msgbox">
         <ul>
-          <li>msg1</li>
-          <li>msg2</li>
-          <li>msg3</li>
-          <li>msg4</li>
-          <li>msg5dfbdbdgdfgf</li>
-          <li>msg6</li>
+          <message v-for="msg in messages" :key="msg+Math.random()" :color="msg.color" :msg="msg.msg"/>
         </ul>
       </b-card>
-      <div class="footer">
-        <b-form-input v-model="text" placeholder="Digite sua mensagem aqui"></b-form-input>
-        <b-button @click="enviar" variant="primary">Enviar</b-button>
-        <b-button variant="danger">Desligar</b-button>
-      </div>
     </div>
+    <div class="footer">
+        <b-form-input v-model="text" type="text" autocomplete="off" @keydown.enter="enviar" placeholder="Digite sua mensagem aqui"></b-form-input>
+        <b-button :disabled="!socket" @click="enviar" variant="primary">Enviar</b-button>
+        <b-button @click="carregarSocket" variant="danger">Próximo</b-button>
+      </div>
   </div>
 </template>
 
 <script>
 import { io } from "socket.io-client";
+import Message from '../components/Message.vue';
 export default {
+  components: { Message },
   data() {
     return {
+      messages: [],
+      anotherClient: null,
       text: '',
-      socket: io(process.env.HOST_SOCKET, { transports : ['websocket'] })
+      socket: null,
     }
   },
 
+  created() {
+    this.carregarSocket()
+  },
+
   methods: {
+    carregarSocket() {
+      if (this.socket) this.socket.disconnect(true);
+      this.messages = []
+      this.socket = io(process.env.HOST_SOCKET || 'http://127.0.0.1:8080', { transports : ['websocket'] })
+      this.socket.on('connect', () => {
+        this.messages.push({
+          msg: 'Conectado ao servidor... Pronto para encontrar um parceiro...',
+          color: 'green'
+        })
+      })
+      this.socket.on('disconnected', (clientId) => {
+        if (clientId==this.anotherClient) {
+          this.messages.push({
+            msg: 'O seu parceiro se desconectou :-(',
+            color: 'red'
+          })
+          this.socket = null
+        }
+      })
+      this.socket.on('joined', (anotherClient) => {
+        this.anotherClient = anotherClient
+        this.messages.push({
+          msg: `Conectado com o usuário ${anotherClient}`,
+          color: 'orange'
+        })
+      })
+      this.socket.on('msg', (anotherClient, msg) => {
+        this.anotherClient = anotherClient
+        console.log(`Mensagem recebida de ${anotherClient}: ${msg}`);
+        this.messages.push({
+          msg: `Anônimo: ${msg}`
+        })
+      })
+    },
+
     enviar() {
-      if (this.text) {
-        io.emit('msg', this.text);
+      if (this.text && this.socket) {
+        this.socket.emit('msg', this.anotherClient, this.text);
+        this.messages.push(
+          {msg: `Você: ${this.text}`}
+        )
         this.text = ''
       }
     }
@@ -48,16 +89,16 @@ export default {
 
 <style lang="scss">
 #app {
-  height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-rows: 70px auto 70px;
+  grid-template-rows: 10vh 75vh 10vh;
   grid-template-columns: 1fr;
   grid-template-areas: "a a"
                        "b b"
                        "c c";
   .navbar {
     grid-area: a;
+    z-index: 100;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -71,8 +112,10 @@ export default {
       grid-area: b;
       display: flex;
       height: 100%;
+      overflow-y: scroll;
       ul {
         list-style: none;
+
         padding: 0;
         li {
           padding: 5px;
@@ -85,14 +128,21 @@ export default {
         }
       }
     }
-
-    .footer {
-      margin-top: 15px;
-      display: grid;
-      grid-template-columns: auto 100px 100px;
-      column-gap: 10px;
-    }
-
   }
+  .footer {
+      margin-top: 15px;
+      padding-top: 10px;
+      grid-area: c;
+      z-index: 100;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 0 15px;
+
+      button {
+        margin-left: 10px;
+        width: 100px;
+      }
+    }
 }
 </style>
