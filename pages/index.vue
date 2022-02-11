@@ -14,7 +14,7 @@
     </div>
     <div class="footer">
         <b-form-input v-model="text" type="text" autocomplete="off" @keydown.enter="enviar" placeholder="Digite sua mensagem aqui"></b-form-input>
-        <b-button @click="enviar" variant="primary">Enviar</b-button>
+        <b-button :disabled="socket" @click="enviar" variant="primary">Enviar</b-button>
         <b-button @click="carregarSocket" variant="danger">Próximo</b-button>
       </div>
   </div>
@@ -55,6 +55,7 @@ export default {
             msg: 'O seu parceiro se desconectou :-(',
             color: 'red'
           })
+          this.socket = null
         }
       })
       this.socket.on('joined', (anotherClient) => {
@@ -74,7 +75,7 @@ export default {
     },
 
     enviar() {
-      if (this.text) {
+      if (this.text && this.socket) {
         this.socket.emit('msg', this.anotherClient, this.text);
         this.messages.push(
           {msg: `Você: ${this.text}`}
